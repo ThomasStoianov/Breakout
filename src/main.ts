@@ -38,8 +38,25 @@ const bolinha = new Actor({
 
 bolinha.body.collisionType = CollisionType.Passive
 
+// Lista de Cores
+let coresBolinha = [
+	Color.Black,
+	Color.Chartreuse,
+	Color.Cyan,
+	Color.Green,
+	Color.Magenta,
+	Color.Orange,
+	Color.Red,
+	Color.Rose,
+	Color.White,
+	Color.Yellow
+
+]
+
+let numeroCores = coresBolinha.length
+
 // 5 - criar movimentação da bolinha
-const velocidadeBolinha = vec(300, 300)
+const velocidadeBolinha = vec(700, 900)
 
 // Após 1 segundao (1000 ms), Define a velocidade da bolinha em x = 100 e y = 100
 setTimeout(() => {
@@ -171,10 +188,29 @@ bolinha.on("collisionstart", (event) => {
 		// Adiciona um ponto
 		pontos++
 
+		// Mudar a cor da bolinha
+		// bolinha.color = coresBolinha[ Math.trunc(Math.random() * numeroCores) ]
+		// Math.random -> 0 - 1 * numeroCores -> 10
+		// 0.5 * 10 = 5
+		// 0.3 * 10 = 3
+		// 0.873 * 10 = 8.73
+
+
+		// Math.trunc() -> retorna somente a porção inteira de um número
+
+		// Mudar a cor da bolinhs com a cor do bloco colidido
+		bolinha.color = event.other.color
+
 		// Atualiza o valor do placar - textoPontos
 		textoPontos.text = pontos.toString()
 
+		// Tocar o som
 		sound.play();
+
+		// Se acabar os blocos, mostrar mensagem de vitória
+		if(pontos == 15) {
+			alert("Você venceu!!!!!")
+		}
 	}
 
 
@@ -213,4 +249,4 @@ bolinha.on("exitviewport", () => {
 })
 
 // Inicia o game
-game.start(loader)
+await game.start(loader)
